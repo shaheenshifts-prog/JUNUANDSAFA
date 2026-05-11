@@ -358,66 +358,30 @@ function MainContent() {
 export default function RoyalWeddingInvitation() {
   const [isOpen, setIsOpen] = useState(false);
   const audioRef = useRef(null);
-  const hasPlayedRef = useRef(false);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const startMusic = () => {
+    if (audioRef.current) return; // Already playing
+    
+    const audio = new Audio("/music/background.mp3");
+    audio.loop = true;
+    audio.volume = 1.0;
+    audioRef.current = audio;
+    
+    audio.play().catch(() => {
+      // If play fails, we'll try again on next interaction
+      audioRef.current = null;
+    });
+  };
 
-    // Preload the audio
-    audio.load();
-
-    const playAudio = () => {
-      if (hasPlayedRef.current) return;
-      
-      audio.muted = false;
-      audio.volume = 1.0;
-      
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            hasPlayedRef.current = true;
-            console.log("[v0] Audio started playing successfully");
-          })
-          .catch((error) => {
-            console.log("[v0] Audio play failed:", error);
-          });
-      }
-    };
-
-    // Handle user interaction for mobile browsers
-    const handleInteraction = () => {
-      playAudio();
-      if (hasPlayedRef.current) {
-        document.removeEventListener("click", handleInteraction);
-        document.removeEventListener("touchstart", handleInteraction);
-        document.removeEventListener("touchend", handleInteraction);
-      }
-    };
-
-    document.addEventListener("click", handleInteraction);
-    document.addEventListener("touchstart", handleInteraction);
-    document.addEventListener("touchend", handleInteraction);
-
-    return () => {
-      document.removeEventListener("click", handleInteraction);
-      document.removeEventListener("touchstart", handleInteraction);
-      document.removeEventListener("touchend", handleInteraction);
-    };
-  }, []);
+  const handleOpenInvitation = () => {
+    startMusic();
+    setIsOpen(true);
+  };
 
   return (
     <div style={{ minHeight: "100vh", background: "#00050F", overflowX: "hidden" }}>
-      <audio 
-        ref={audioRef} 
-        src="/music/background.mp3" 
-        loop 
-        playsInline
-        preload="auto"
-      />
       <AnimatePresence mode="wait">
-        {!isOpen ? <LandingGate key="gate" onOpen={() => setIsOpen(true)} /> : <MainContent key="main" />}
+        {!isOpen ? <LandingGate key="gate" onOpen={handleOpenInvitation} /> : <MainContent key="main" />}
       </AnimatePresence>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,400&family=Pinyon+Script&display=swap');
