@@ -379,7 +379,7 @@ export default function RoyalWeddingInvitation() {
     <div style={{ minHeight: "100vh", background: "#00050F", overflowX: "hidden" }}>
       <audio 
         ref={audioRef}
-        src="/music/background.mp3"
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-K72WsmiKOT3W0oJ4uF4QXR01Zs0xaq.mp3"
         loop
         preload="auto"
         playsInline
