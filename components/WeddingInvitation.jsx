@@ -359,27 +359,31 @@ export default function RoyalWeddingInvitation() {
   const [isOpen, setIsOpen] = useState(false);
   const audioRef = useRef(null);
 
-  const startMusic = () => {
-    if (audioRef.current) return; // Already playing
-    
-    const audio = new Audio("/music/background.mp3");
-    audio.loop = true;
-    audio.volume = 1.0;
-    audioRef.current = audio;
-    
-    audio.play().catch(() => {
-      // If play fails, we'll try again on next interaction
-      audioRef.current = null;
-    });
-  };
-
   const handleOpenInvitation = () => {
-    startMusic();
+    if (!audioRef.current) return;
+    
+    const audio = audioRef.current;
+    audio.currentTime = 0;
+    audio.play()
+      .then(() => {
+        console.log("[v0] Audio playing successfully");
+      })
+      .catch((err) => {
+        console.log("[v0] Audio play error:", err.message);
+      });
+    
     setIsOpen(true);
   };
 
   return (
     <div style={{ minHeight: "100vh", background: "#00050F", overflowX: "hidden" }}>
+      <audio 
+        ref={audioRef}
+        src="/music/background.mp3"
+        loop
+        preload="auto"
+        playsInline
+      />
       <AnimatePresence mode="wait">
         {!isOpen ? <LandingGate key="gate" onOpen={handleOpenInvitation} /> : <MainContent key="main" />}
       </AnimatePresence>
