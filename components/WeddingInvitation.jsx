@@ -358,37 +358,64 @@ function MainContent() {
 export default function RoyalWeddingInvitation() {
   const [isOpen, setIsOpen] = useState(false);
   const audioRef = useRef(null);
+  const hasPlayedRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Preload the audio
+    audio.load();
+
     const playAudio = () => {
-      audio.play().catch(() => {});
+      if (hasPlayedRef.current) return;
+      
+      audio.muted = false;
+      audio.volume = 1.0;
+      
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            hasPlayedRef.current = true;
+            console.log("[v0] Audio started playing successfully");
+          })
+          .catch((error) => {
+            console.log("[v0] Audio play failed:", error);
+          });
+      }
     };
 
-    // Try to play immediately
-    playAudio();
-
-    // Also try on first user interaction (for browsers that block autoplay)
+    // Handle user interaction for mobile browsers
     const handleInteraction = () => {
       playAudio();
-      document.removeEventListener("click", handleInteraction);
-      document.removeEventListener("touchstart", handleInteraction);
+      if (hasPlayedRef.current) {
+        document.removeEventListener("click", handleInteraction);
+        document.removeEventListener("touchstart", handleInteraction);
+        document.removeEventListener("touchend", handleInteraction);
+      }
     };
 
     document.addEventListener("click", handleInteraction);
     document.addEventListener("touchstart", handleInteraction);
+    document.addEventListener("touchend", handleInteraction);
 
     return () => {
       document.removeEventListener("click", handleInteraction);
       document.removeEventListener("touchstart", handleInteraction);
+      document.removeEventListener("touchend", handleInteraction);
     };
   }, []);
 
   return (
     <div style={{ minHeight: "100vh", background: "#00050F", overflowX: "hidden" }}>
-      <audio ref={audioRef} src="/music/background.mp3" loop />
+      <audio 
+        ref={audioRef} 
+        src="/music/background.mp3" 
+        loop 
+        playsInline
+        preload="auto"
+      />
       <AnimatePresence mode="wait">
         {!isOpen ? <LandingGate key="gate" onOpen={() => setIsOpen(true)} /> : <MainContent key="main" />}
       </AnimatePresence>
