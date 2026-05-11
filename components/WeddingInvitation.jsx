@@ -304,7 +304,7 @@ function MainContent() {
           style={{ textAlign: "center", marginBottom: 64 }}>
           <motion.div animate={{ filter: ["drop-shadow(0 0 8px rgba(212,175,55,0.3))", "drop-shadow(0 0 24px rgba(212,175,55,0.7))", "drop-shadow(0 0 8px rgba(212,175,55,0.3))"] }}
             transition={{ duration: 4, repeat: Infinity }}
-            style={{ fontFamily: "serif", fontSize: 52, color: "#D4AF37", marginBottom: 28, lineHeight: 1 }}>﷽</motion.div>
+            style={{ fontFamily: "serif", fontSize: "clamp(36px, 10vw, 52px)", color: "#D4AF37", marginBottom: 28, lineHeight: 1 }}>﷽</motion.div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 36, justifyContent: "center" }}>
             <div style={{ height: 0.5, flex: 1, background: "linear-gradient(to right, transparent, rgba(212,175,55,0.5))" }} />
             <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2 L12 8 L18 8 L13 12 L15 18 L10 14 L5 18 L7 12 L2 8 L8 8 Z" fill="rgba(212,175,55,0.6)" /></svg>
@@ -348,7 +348,7 @@ function MainContent() {
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, color: "rgba(212,175,55,0.45)", fontStyle: "italic", letterSpacing: "0.1em", lineHeight: 2 }}>
             Your presence will be our greatest joy<br />and your prayers our greatest blessing
           </p>
-          <p style={{ fontFamily: "'Cinzel', serif", fontSize: 18, letterSpacing: "0.6em", color: "rgba(212,175,55,0.55)", textTransform: "uppercase", marginTop: 28 }}>07 · 06 · 2026</p>
+          <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 4vw, 18px)", letterSpacing: "clamp(0.2em, 2vw, 0.6em)", color: "rgba(212,175,55,0.55)", textTransform: "uppercase", marginTop: 28 }}>07 · 06 · 2026</p>
         </motion.div>
       </div>
     </motion.main>
