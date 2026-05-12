@@ -379,10 +379,11 @@ export default function RoyalWeddingInvitation() {
     <div style={{ minHeight: "100vh", background: "#00050F", overflowX: "hidden" }}>
       <audio 
         ref={audioRef}
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background-K72WsmiKOT3W0oJ4uF4QXR01Zs0xaq.mp3"
+        src="https://www.dropbox.com/scl/fi/oox2sffxrnq9wf4oidjm9/background.mp3?rlkey=18si6qzkwsj8f53qzoblsb35o&st=9vruq0aw&dl=1"
         loop
         preload="auto"
         playsInline
+        crossOrigin="anonymous"
       />
       <AnimatePresence mode="wait">
         {!isOpen ? <LandingGate key="gate" onOpen={handleOpenInvitation} /> : <MainContent key="main" />}
